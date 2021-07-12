@@ -16,6 +16,9 @@ usersRouter.post('/', async (request, response) => {
       password,
     });
 
+    // @ts-expect-error The command delete can make the code break at some point, it's been used here to not leak sensitive information.
+    delete user.password;
+
     return response.json(user);
   } catch (err) {
     return response.status(400).json({ error: err.message });
