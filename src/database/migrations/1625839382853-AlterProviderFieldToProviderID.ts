@@ -10,6 +10,7 @@ export default class AlterProviderFieldToProviderID1625839382853
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
     queryRunner.dropColumn('appointments', 'provider');
+
     await queryRunner.addColumn(
       'appointments',
       new TableColumn({
