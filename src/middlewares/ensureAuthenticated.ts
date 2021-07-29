@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 
 import authConfig from '../config/auth';
+import AppError from '../errors/AppError';
 
 interface ITokenPayLoad {
   iat: number;
@@ -18,7 +19,7 @@ export default function ensureAuthenticated(
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {
-    throw new Error('JWT token is missing!');
+    throw new AppError('JWT token is missing!', 401);
   }
 
   // Fazendo a desestruturação | [ Bearer, Token ] | ao colocar uma única variável estando após uma virgula, o primeiro valor é ignorado.
@@ -35,6 +36,6 @@ export default function ensureAuthenticated(
 
     return next();
   } catch (err) {
-    throw new Error('Invalid JWT token!');
+    throw new AppError('Invalid JWT token!', 401);
   }
 }
