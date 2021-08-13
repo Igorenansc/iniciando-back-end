@@ -1,10 +1,10 @@
+import uploadConfig from '@config/upload';
+import CreateUserService from '@modules/users/services/CreateUserService';
+import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
 import { Router } from 'express';
 import multer from 'multer';
 
-import uploadConfig from '../config/upload';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
-import CreateUserService from '../services/CreateUserService';
-import UpdateUserAvatarService from '../services/UpdateUserAvatarService';
 
 const usersRouter = Router();
 
@@ -21,8 +21,7 @@ usersRouter.post('/', async (request, response) => {
       email,
       password,
     });
-
-    // @ts-expect-error The command delete can make the code break at some point, it's been used here to not leak sensitive information.
+    // @ts-expect-error Used to not leak sensitive data
     delete user.password;
 
     return response.json(user);
@@ -43,8 +42,7 @@ usersRouter.patch(
       // @ts-expect-error The command may receive a unknown type, but we are going to accept anyway.
       avatarFilename: request.file.filename,
     });
-
-    // @ts-expect-error The command delete can make the code break at some point, it's been used here to not leak sensitive information.
+    // @ts-expect-error Used to not leak sensitive data
     delete user.password;
 
     return response.json(user);
